@@ -2,7 +2,8 @@
 
 
 --getgenv().WishList = {"Pidgey"} 
---getgenv().Webhook = ""
+--getgenv().ShinyWishlist = {"Pidgey"}
+--getgenv().Webhook = "WEBHOOK HERE"
 
 
 
@@ -380,7 +381,11 @@ end
  
  
 function AutoFinder:CanGetPokemon()
-    return self.isShiny == true and GetShiny == true and table.find(WishList, self.PokemonName) and true or false
+    return self.isShiny == true and GetShiny == true and true or self.Variation ~= "No Variation" and GetVariations == true and true or table.find(WishList, self.PokemonName) and true or false
+end
+
+function AutoFinder:CanGetPokemon()
+    return self.isShiny == true and GetShiny == true and table.find(ShinyWishList, self.PokemonName) and true or false
 end
  
 function AutoFinder:UpdateLabels()
