@@ -408,7 +408,7 @@ function AutoFinder:CanGetPokemon()
     end 
     
     -- check if  .GetOnlyShinyWishlist  is ON
-    elseif(getgenv().GetOnlyShinyWishlist) then do
+    elseif(getgenv().GetOnlyShinyWishlist == true) then do
     return (self.isShiny == true) and (GetOnlyShinyWishlist == true) and (ShinyWishlist == self.PokemonName)
     end
     
@@ -1081,11 +1081,11 @@ local Toggle = Section:CreateToggle('.GetShiny 🌟', false, Color3.fromRGB(0, 1
     GetShiny = Value
 end)
  
-local Toggle = Section:CreateToggle('.GetOnlyShiny !!', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
+local Toggle = Section:CreateToggle('.GetOnlySpecificShiny !!', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
     GetOnlyShiny = Value
 end)
  
-local Toggle = Section:CreateToggle('.GetOnlyShinyWishlist !!', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
+local Toggle = Section:CreateToggle('.GetShinyWishlist !!', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
     GetOnlyShinyWishlist = Value
 end)
 
