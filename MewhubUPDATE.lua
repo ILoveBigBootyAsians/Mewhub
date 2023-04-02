@@ -411,6 +411,40 @@ function AutoFinder:CanGetPokemon()
 end
 end
 
+function AutoFinder:CanGetPokemon()
+    
+    -- check if  .GetOnlyShiny is ON and  .GetOnlyShiny  is ON
+    if(GetOnlyShiny == true) then do
+        return self.isShiny == true and GetOnlyShiny == true and true
+    end
+    
+    -- check if  .GetShiny  is OFF
+    elseif(table.find(ShinyWishlist, self.PokemonName) and (GetShiny == false)) then do
+    return table.find(ShinyWishlist, self.PokemonName) and true
+    end 
+
+    -- check if  .GetShiny  is ON
+    elseif(GetShiny == true) then do
+    return (self.isShiny == true) and table.find(ShinyWishlist, self.PokemonName) and false
+    end 
+
+    -- check if  .Variation  is on
+    elseif((self.Variation ~= "No Variation") and (GetVariations == true) and true) then do
+    return (self.Variation ~= "No Variation") and (GetVariations == true) and true
+    end 
+
+    -- check if  .isShiny  is true and  .GetShiny  is true and  wishlist  is true
+    elseif((self.isShiny == true) and (GetShiny == true) and (ShinyWishlist == self.PokemonName)) then do
+    return (self.isShiny == true) and (GetShiny == true) and (ShinyWishlist == self.PokemonName)
+    end 
+    
+   
+    
+    --return self.isShiny == true and GetShiny == true and true or self.Variation ~= "No Variation" and GetVariations == true and true or table.find(WishList, self.PokemonName) and true or false
+    
+end
+end
+
 
 function AutoFinder:UpdateLabels()
     
@@ -1048,6 +1082,9 @@ end)
 
 local Textbox = Section:CreateTextbox('.Wishlist 🐭', 'Input Here', function(Value)
     getgenv().WishList = {Value} 
+end)
+local Textbox = Section:CreateTextbox('.ShinyWishlist 🐭', 'Input Here', function(Value)
+    getgenv().ShinyWishList = {Value} 
 end)
 LabelSection= Section:CreateLabel('                                  -｡ﾟ•┈✨┈•ﾟ｡-')
 local Toggle = Section:CreateToggle('.Notifications 📣', false, Color3.fromRGB(0, 125, 255), 0.25, function(Value)
