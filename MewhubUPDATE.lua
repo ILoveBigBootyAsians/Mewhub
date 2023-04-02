@@ -427,7 +427,7 @@ function AutoFinder:CanGetPokemon()
     elseif(GetShiny == true) then do
     return (self.isShiny == true) and table.find(ShinyWishlist, self.PokemonName) and false
     end 
-
+ 
     -- check if  .Variation  is on
     elseif((self.Variation ~= "No Variation") and (GetVariations == true) and true) then do
     return (self.Variation ~= "No Variation") and (GetVariations == true) and true
@@ -1066,7 +1066,7 @@ if syn and syn.protect_gui then
     syn.protect_gui(game:GetService("CoreGui"))
     syn.protect_gui(game:GetService("StarterGui"))
 end
-local Window = Library:CreateWindow('🎱 MewHub', "dev test", "Welcome | "..game.Players.LocalPlayer.Name.."", "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png", false, 'VisualUIConfigs', 'Krnl')
+local Window = Library:CreateWindow('🎱 MewHub', "Fuck the Niggers", "Welcome | "..game.Players.LocalPlayer.Name.."", "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png", false, 'VisualUIConfigs', 'Krnl')
 
 
 
