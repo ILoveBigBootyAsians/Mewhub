@@ -355,8 +355,8 @@ local ReportData = {
                     ["inline"]= true
                 },
                 {
-                    ["name"]= " 🥷🏻 repel",
-                    ["value"]= "```".. _p.repel .."```",
+                    ["name"]= " 🥷🏻 test",
+                    ["value"]= "```".. "test" .."```",
                     ["inline"]= true
                 },
                 
@@ -713,7 +713,7 @@ if syn and syn.protect_gui then
     syn.protect_gui(game:GetService("CoreGui"))
     syn.protect_gui(game:GetService("StarterGui"))
 end
-local Window = Library:CreateWindow('🎱 MewHub', "Fuck the Niggers 👌", "Welcome | "..game.Players.LocalPlayer.Name.."", "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png", false, 'VisualUIConfigs', 'Krnl')
+local Window = Library:CreateWindow('🎱 discord.gg/MewHub', "Fuck the Niggers 👌", "Welcome | "..game.Players.LocalPlayer.Name.."", "https://www.roblox.com/headshot-thumbnail/image?userId="..game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png", false, 'VisualUIConfigs', 'Krnl')
 
 
 
