@@ -203,7 +203,7 @@ function AutoFinder:UpdateTest2(Webhook) -- sends to mewhub discord
     dogg = "weedle"
     getgenv().TestShiny = tostring(self.isShiny)
     dogg = string.lower(self.PokemonName)
-    normal = "https://play.pokemonshowdown.com/sprites/xyani/"..dogg..".gif"
+    normal = "https://play.pokemonshowdown.com/sprites/ani/"..dogg..".gif"
     shinee = "https://play.pokemonshowdown.com/sprites/ani-shiny/"..dogg..".gif"
     if(self.isShiny) then do webhookdogg = shinee end
     else webhookdogg = normal   end
@@ -1024,7 +1024,7 @@ for _, v in pairs(getgc(true)) do
         end
     end
 end
-    syn.secure_call(_p.Menu.party.open, localPlayer.PlayerScripts.ChatScript, _p.Menu.party)
+    _p.Menu.party:open()
 end)
 
 local Button = Section:CreateButton('.OpenPC 🖥️', function()
@@ -1037,9 +1037,7 @@ for _, v in pairs(getgc(true)) do
         end
     end
 end
-    syn.secure_call(_p.Menu.pc.bootUp, localPlayer.PlayerScripts.ChatScript, _p.Menu.pc)
-    _p.Menu:enable()
-    _p.MasterControl.WalkEnabled = true
+    _p.Menu.pc:bootUp()
 end)
 
 local Button = Section:CreateButton('.BeatAllGyms 🥇', function()
